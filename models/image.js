@@ -4,8 +4,9 @@ var Schema = mongoose.Schema;
 var imageSchema = new Schema({
   image: { type: String, required: true },
   description: { type: String, required: true },
+  amount: Number,
   rating: Number,
-  date: { type: Date, default: Date.now }
+  date: { type: Date, default: Date.now },
 });
 
 var Image = mongoose.model("Image", imageSchema);

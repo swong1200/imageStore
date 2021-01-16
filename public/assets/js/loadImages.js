@@ -11,8 +11,8 @@ function createEl(htmlString = "", className) {
 
 function loadImages() {
   fetch("/api/images")
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       dataArray = data;
       createCards(dataArray);
     });
@@ -24,7 +24,7 @@ function createCards(data) {
   let lastRow;
   const row = createEl("div", "row");
 
-  return data.forEach(function(image, index) {
+  return data.forEach(function (image, index) {
     const col = createEl("div", "col-md-4 mt-4");
     col.appendChild(createCard(image));
     if (index % 3 === 0) {
@@ -46,7 +46,10 @@ function createCard(image) {
 
   const cardBody = createEl("div", "card-body");
 
-  const ratingFormContainer = createEl("div", "rating d-flex justify-content-start");
+  const ratingFormContainer = createEl(
+    "div",
+    "rating d-flex justify-content-start"
+  );
   ratingFormContainer.setAttribute("data-id", image._id);
   ratingFormContainer.setAttribute("data-rating", image.rating);
 
@@ -56,10 +59,16 @@ function createCard(image) {
 
   cardText.innerText = `${image.description} (${image.rating})`;
 
+  const purchaseButton = createEl("button", "btn btn-primary");
+  console.log(purchaseButton);
+  purchaseButton.innerText = `$1.00`;
+  // purchaseButton.setAttribute("data-value", image.amount);
+
   imageContainer.append(img);
   ratingFormContainer.append(ratingForm);
   cardBody.appendChild(ratingFormContainer);
   cardBody.appendChild(cardText);
+  cardBody.appendChild(purchaseButton);
   card.appendChild(imageContainer);
   card.appendChild(cardBody);
 
@@ -72,7 +81,7 @@ function createRatingForm(image) {
     2: "Two Stars",
     3: "Three Stars",
     4: "Four Stars",
-    5: "Five Stars"
+    5: "Five Stars",
   };
 
   const form = createEl("form");
@@ -108,17 +117,19 @@ function updateRating(event) {
     method: "PUT",
     body: JSON.stringify({ rating }),
     headers: {
-      "Content-Type": "application/json"
-    }
-  }).then(function() {
-    loadImages();
-  }).catch(function(err) {
-    console.log(err);
-    dataArray.forEach((item) => {
-      if(item._id === id) {
-        item.rating = rating;
-      }
+      "Content-Type": "application/json",
+    },
+  })
+    .then(function () {
+      loadImages();
+    })
+    .catch(function (err) {
+      console.log(err);
+      dataArray.forEach((item) => {
+        if (item._id === id) {
+          item.rating = rating;
+        }
+      });
+      createCards(dataArray);
     });
-    createCards(dataArray);
-  });
 }
