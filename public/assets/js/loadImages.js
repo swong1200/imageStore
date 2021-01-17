@@ -69,8 +69,17 @@ function createCard(image) {
   purchaseButton.setAttribute("data-image", image.image);
 
   purchaseButton.addEventListener("click", function () {
+    let price = purchaseButton.getAttribute("data-price");
+    let name = purchaseButton.getAttribute("data-name");
+    let image = purchaseButton.getAttribute("data-image");
+    const data = { itemprice: price, itemname: name, itemimage: image };
+
     fetch("/create-checkout-session", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
     })
       .then(function (response) {
         return response.json();

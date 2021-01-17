@@ -30,7 +30,7 @@ module.exports = function (app) {
               name: "Stubborn Attachments",
               images: ["https://i.imgur.com/EHyR2nP.png"],
             },
-            unit_amount: 2000,
+            unit_amount: 100,
           },
           quantity: 1,
         },
