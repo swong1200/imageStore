@@ -1,5 +1,8 @@
 loadImages();
 let dataArray = [];
+const stripe = Stripe(
+  "pk_test_51IAM5zJXFwKf0sIhgASGlu2txwoL6I5JL9duOBvRtpy3ejH5o33rn3uF231WzJYeXfVxc0E9bUIueF0WeocPXZyu00ECgtoUhT"
+);
 
 function createEl(htmlString = "", className) {
   const el = document.createElement(htmlString);
@@ -59,9 +62,31 @@ function createCard(image) {
 
   cardText.innerText = `${image.description} (${image.rating})`;
 
-  const purchaseButton = createEl("button", "btn btn-primary");
-  console.log(purchaseButton);
+  const purchaseButton = createEl("button", "btn btn-primary checkout");
   purchaseButton.innerText = `$1.00`;
+
+  purchaseButton.addEventListener("click", function () {
+    fetch("/create-checkout-session", {
+      method: "POST",
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (session) {
+        return stripe.redirectToCheckout({ sessionId: session.id });
+      })
+      .then(function (result) {
+        // If redirectToCheckout fails due to a browser or network
+        // error, you should display the localized error message to your
+        // customer using error.message.
+        if (result.error) {
+          alert(result.error.message);
+        }
+      })
+      .catch(function (error) {
+        console.error("Error:", error);
+      });
+  });
   // purchaseButton.setAttribute("data-value", image.amount);
 
   imageContainer.append(img);
