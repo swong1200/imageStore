@@ -64,6 +64,9 @@ function createCard(image) {
 
   const purchaseButton = createEl("button", "btn btn-primary checkout");
   purchaseButton.innerText = `$1.00`;
+  purchaseButton.setAttribute("data-price", image.amount);
+  purchaseButton.setAttribute("data-name", image.description);
+  purchaseButton.setAttribute("data-image", image.image);
 
   purchaseButton.addEventListener("click", function () {
     fetch("/create-checkout-session", {
@@ -87,7 +90,6 @@ function createCard(image) {
         console.error("Error:", error);
       });
   });
-  // purchaseButton.setAttribute("data-value", image.amount);
 
   imageContainer.append(img);
   ratingFormContainer.append(ratingForm);
