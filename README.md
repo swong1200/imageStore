@@ -26,7 +26,7 @@ This project was created to show how to implement the Stripe API. It's a simple 
 
 ## Installation
 
-You will need a Stripe account to run this. Please clone the repo then run npm install. Add the Stripe public key to loadimages.js and the secret key to your .env file. Also ensure you have Mongo installed and npm run seed.
+You will need a Stripe account to run this. Please clone the repo then run npm install. Add the Stripe public key to loadimages.js and the secret key to your .env file. Also ensure you have Mongo installed and then run seeder.
 
 ## Usage
 
