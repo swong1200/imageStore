@@ -1,4 +1,5 @@
 var db = require("../models");
+require("dotenv").config();
 const stripe = require("stripe")(process.env.SECRET_KEY);
 
 module.exports = function (app) {
@@ -35,8 +36,8 @@ module.exports = function (app) {
         },
       ],
       mode: "payment",
-      success_url: `${PORT}/success.html`,
-      cancel_url: `${PORT}/cancel.html`,
+      success_url: `http://localhost:3001/success.html`,
+      cancel_url: `http://localhost:3001/cancel.html`,
     });
     res.json({ id: session.id });
   });
