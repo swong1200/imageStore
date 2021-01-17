@@ -1,6 +1,7 @@
 var db = require("../models");
 require("dotenv").config();
 const stripe = require("stripe")(process.env.SECRET_KEY);
+const path = require("path");
 
 module.exports = function (app) {
   app.get("/api/images", function (req, res) {
@@ -19,7 +20,10 @@ module.exports = function (app) {
   });
 
   app.post("/create-checkout-session", async (req, res) => {
-    console.log(req.body);
+    let name = req.body.itemname;
+    let image = req.body.itemimage;
+    let price = JSON.parse(req.body.itemprice);
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
@@ -27,10 +31,10 @@ module.exports = function (app) {
           price_data: {
             currency: "usd",
             product_data: {
-              name: "Stubborn Attachments",
-              images: ["https://i.imgur.com/EHyR2nP.png"],
+              name: name,
+              images: ["http://localhost:3001" + image],
             },
-            unit_amount: 100,
+            unit_amount: price,
           },
           quantity: 1,
         },
